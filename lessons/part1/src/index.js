@@ -28,13 +28,13 @@ import ReactDOM from 'react-dom';
 //   )
 
 
-const Display = ({counter}) => {
-  return (
-    <div>
-      {counter}
-    </div>
-  )
-}
+// const Display = ({counter}) => {
+//   return (
+//     <div>
+//       {counter}
+//     </div>
+//   )
+// }
 
 const Button = ({handleClick, text}) => {
   return (
@@ -42,27 +42,69 @@ const Button = ({handleClick, text}) => {
   )
 }
 
-const App = () => {
-  const [counter, setCounter] = useState(0)
+// const App = () => {
+//   const [counter, setCounter] = useState(0)
 
-  const increaseByOne = () => {
-    setCounter(counter + 1)
+//   const increaseByOne = () => {
+//     setCounter(counter + 1)
+//   }
+
+//   const decreaseByOne = () => {
+//     setCounter(counter - 1)
+//   } 
+
+//   const zeroCounter = () => {
+//     setCounter(0)
+//   }
+
+//   return (
+//     <div>
+//       <Display counter={counter} />
+//       <Button handleClick={increaseByOne} text={"increase"} />
+//       <Button handleClick={zeroCounter} text={"zero"} />
+//       <Button handleClick={decreaseByOne} text={"decrement"} />
+//     </div>
+//   )
+// }
+
+const History = ({allClicks}) => {
+  if (allClicks.length === 0) {
+    return (
+      <div>
+        the game is used by pressing the left and right buttons
+      </div>
+    )
+  } else {
+    return (
+      <div>
+        button history: {allClicks.join(' ')}
+      </div>
+    )
+  }
+}
+
+const App = () => {
+  const [left, setLeft] = useState(0)
+  const [right, setRight] = useState(0)
+  const [allClicks, setAllClicks] = useState([])
+
+  const handleLeftClick = () => {
+    setLeft(left + 1)
+    setAllClicks(allClicks.concat('L'))
   }
 
-  const decreaseByOne = () => {
-    setCounter(counter - 1)
-  } 
-
-  const zeroCounter = () => {
-    setCounter(0)
+  const handleRightClick = () => {
+    setRight(right + 1)
+    setAllClicks(allClicks.concat('R'))
   }
 
   return (
     <div>
-      <Display counter={counter} />
-      <Button handleClick={increaseByOne} text={"increase"} />
-      <Button handleClick={zeroCounter} text={"zero"} />
-      <Button handleClick={decreaseByOne} text={"decrement"} />
+      {left}
+      <Button handleClick={handleLeftClick} text="left" />
+      <Button handleClick={handleRightClick} text="right" />
+      {right}
+      <History allClicks={allClicks}/>
     </div>
   )
 }
