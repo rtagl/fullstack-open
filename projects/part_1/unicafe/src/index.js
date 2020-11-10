@@ -1,28 +1,30 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 
+const Statistic = ({text, value}) => {
+  return (
+    <div>
+      {text} {value}
+    </div>
+  )
+}
+
 const Statistics = ({good, neutral, bad, all, average, positive}) => {
   if (all === 0) {
     return (
       <div>
-        <h1>statistics</h1>
         <p>no feedback given</p>
       </div>
     )
   } else {
     return (
       <div>
-        <h1>statistics</h1>
-        <div>good {good}</div>
-        <div>neutral {neutral}</div>
-        <div>bad {bad}</div>
-        <div>all {all}</div>
-        {isNaN(average)
-          ? <div>average: no votes yet!</div>
-          : <div>average: {average.toFixed(2)}</div>}
-        {isNaN(positive)
-          ? <div>positive: no votes yet!</div>
-          : <div>positive: {positive.toFixed(2)}%</div>}
+        <Statistic text="good" value={good}/>
+        <Statistic text="neutral" value={neutral}/>
+        <Statistic text="bad" value={bad}/>
+        <Statistic text="all" value={all}/>
+        <Statistic text="average:" value={average.toFixed(2)} />
+        <Statistic text="positive:" value={positive.toFixed(2) + '%'} />
       </div>
     )
   }
@@ -57,6 +59,7 @@ const App = () => {
         <button onClick={handleBadClick}>bad</button>
       </div>
       <div>
+        <h1>statistics</h1>
         <Statistics 
           good={good}
           neutral={neutral}
