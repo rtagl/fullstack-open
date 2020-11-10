@@ -5,8 +5,6 @@ const App = ({anecdotes}) => {
   const [selected, setSelected] = useState(Math.floor(Math.random()*anecdotes.length))
   const [likes, setLikes] = useState(new Array(anecdotes.length).fill(0))
 
-  console.log(likes)
-
   const handleClick = () => {
     setSelected(Math.floor(Math.random()*anecdotes.length))
   }
@@ -17,8 +15,23 @@ const App = ({anecdotes}) => {
     setLikes(copyOfLikes)
   }
 
+  const findMostPopular = () => {
+    return (
+      <div>
+        <div>
+          {anecdotes[likes.indexOf(Math.max(...likes))]}
+        </div>
+        <div>
+          has {Math.max(...likes)} votes
+        </div>
+      </div>
+    )
+  }
+  
+
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <div>
         {anecdotes[selected]}
       </div>
@@ -28,6 +41,10 @@ const App = ({anecdotes}) => {
       <div>
         <button onClick={handleLikeClick}>like</button>
         <button onClick={handleClick}>new anecdote</button>
+      </div>
+      <div>
+        <h1>Anecdote with the most votes</h1>
+        {findMostPopular()}
       </div>
     </div>
   )
