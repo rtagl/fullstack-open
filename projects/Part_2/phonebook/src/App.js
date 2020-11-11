@@ -12,11 +12,17 @@ const App = () => {
 
   const handleNewPersonSubmit = (e) => {
     e.preventDefault()
-    const person = {
-      name: newName
+
+    if (persons.some(person => person.name.toLowerCase() === newName.toLowerCase())) {
+      alert(`${newName} is already in phonebook`)
+      setNewName('')
+    } else {
+      const person = {
+        name: newName
+      }
+      setPersons(persons.concat(person))
+      setNewName('')
     }
-    setPersons(persons.concat(person))
-    setNewName('')
   }
 
   return (
@@ -32,7 +38,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <div>
-        {persons.map(person => <div>{person.name}</div>)}
+        {persons.map((person, i) => <div key={i}>{person.name}</div>)}
       </div>
     </div>
   )
