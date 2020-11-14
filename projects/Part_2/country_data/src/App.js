@@ -2,23 +2,39 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const CountryView = ({ country }) => {
+  const [temperature, setTemperature] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://api.openweathermap.org/data/2.5/weather?q=${country.capital}&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
+      )
+      .then((response) => {
+        const tempInFahrenheit = 1.8 * (response.data.main.temp - 273) + 32;
+        setTemperature(tempInFahrenheit);
+      });
+  });
+
   return (
     <div>
+      <h1>{country.name}</h1>
+      <div>capital {country.capital}</div>
+      <div>population {country.population}</div>
+      <h3>languages</h3>
       <div>
-        <h1>{country.name}</h1>
-        <div>capital {country.capital}</div>
-        <div>population {country.population}</div>
-        <h3>languages</h3>
-        <div>
-          <ul>
-            {country.languages.map((language, i) => (
-              <li key={i}>{language.name}</li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <img src={country.flag} alt="#country-flag" width="250" />
-        </div>
+        <ul>
+          {country.languages.map((language, i) => (
+            <li key={i}>{language.name}</li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <img src={country.flag} alt="#country-flag" width="250" />
+      </div>
+      <div>
+        <p>
+          the temperature in {country.capital} is {Math.round(temperature)}°F
+        </p>
       </div>
     </div>
   );
