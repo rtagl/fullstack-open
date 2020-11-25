@@ -24,12 +24,11 @@ const App = () => {
 
   const handleNewPersonSubmit = (e) => {
     e.preventDefault();
+    const userExists = persons.some(
+      (person) => person.name.toLowerCase() === newName.toLowerCase()
+    );
 
-    if (
-      persons.some(
-        (person) => person.name.toLowerCase() === newName.toLowerCase()
-      )
-    ) {
+    if (userExists) {
       let personToUpdate = persons.find(
         (person) => person.name.toLowerCase() === newName.toLowerCase()
       );
