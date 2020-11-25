@@ -30,8 +30,21 @@ const App = () => {
         (person) => person.name.toLowerCase() === newName.toLowerCase()
       )
     ) {
-      alert(`${newName} is already in phonebook`);
-      setNewName("");
+      let personToUpdate = persons.find(
+        (person) => person.name.toLowerCase() === newName.toLowerCase()
+      );
+      if (window.confirm(`update ${personToUpdate.name}?`)) {
+        personToUpdate = { ...personToUpdate, number: newNumber };
+        personService
+          .update(personToUpdate.id, personToUpdate)
+          .then((returnedPerson) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== personToUpdate.id ? person : returnedPerson
+              )
+            );
+          });
+      }
     } else {
       const person = {
         name: newName,
