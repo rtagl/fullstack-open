@@ -24,14 +24,18 @@ const App = () => {
 
   const handleNewPersonSubmit = (e) => {
     e.preventDefault();
-    const userExists = persons.some(
+
+    // check if a user exists
+    const personExists = persons.some(
       (person) => person.name.toLowerCase() === newName.toLowerCase()
     );
 
-    if (userExists) {
+    if (personExists) {
       let personToUpdate = persons.find(
         (person) => person.name.toLowerCase() === newName.toLowerCase()
       );
+
+      // confirm to update person object
       if (window.confirm(`update ${personToUpdate.name}?`)) {
         personToUpdate = { ...personToUpdate, number: newNumber };
         personService
@@ -45,6 +49,7 @@ const App = () => {
           });
       }
     } else {
+      // if person does not exist, create new person object
       const person = {
         name: newName,
         number: newNumber,
