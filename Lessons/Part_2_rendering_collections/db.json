@@ -23,6 +23,24 @@
       "content": "lol",
       "date": "2020-11-19T17:47:36.777Z",
       "important": false
+    },
+    {
+      "id": 6,
+      "content": "yoyo",
+      "date": "2020-11-30T16:43:03.395Z",
+      "important": false
+    },
+    {
+      "id": 7,
+      "content": "lol",
+      "date": "2020-11-30T16:43:58.691Z",
+      "important": true
+    },
+    {
+      "id": 8,
+      "content": "lol",
+      "date": "2020-11-30T16:44:06.115Z",
+      "important": true
     }
   ]
 }

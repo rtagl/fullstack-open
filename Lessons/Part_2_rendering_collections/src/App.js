@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Note from "./components/Note";
+import Notification from "./components/Notification";
 import noteService from "./services/notes";
 
 const App = () => {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState("");
   const [showAll, setShowAll] = useState(true);
+  const [notification, setNotification] = useState({
+    message: null,
+    color: null,
+  });
 
   useEffect(() => {
     noteService.getAll().then((notesInDB) => {
@@ -24,6 +29,13 @@ const App = () => {
     noteService.create(note).then((returnedNote) => {
       setNotes(notes.concat(returnedNote));
       setNewNote("");
+      setNotification({
+        message: `${returnedNote.content} added`,
+        color: "green",
+      });
+      setTimeout(() => {
+        setNotification({ message: null, color: null });
+      }, 4000);
     });
   };
 
@@ -45,8 +57,14 @@ const App = () => {
         setNotes(notes.map((note) => (note.id !== id ? note : returnedNote)))
       )
       .catch((error) => {
-        alert(`the note "${note.content}" was already deleted`);
+        setNotification({
+          message: `the note "${note.content}" was already deleted`,
+          color: "red",
+        });
         setNotes(notes.filter((n) => n.id !== id));
+        setTimeout(() => {
+          setNotification({ message: null, color: null });
+        }, 4000);
       });
   };
 
@@ -57,6 +75,7 @@ const App = () => {
   return (
     <div>
       <h1>Notes</h1>
+      <Notification notification={notification} />
       <div>
         <form onSubmit={handleSubmit}>
           <input
