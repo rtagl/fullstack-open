@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import personService from "./services/persons";
 import Filter from "./components/Filter";
 import NewPersonForm from "./components/NewPersonForm";
+import Notification from "./components/Notification";
 import PersonsList from "./components/PersonsList";
 
 const App = () => {
@@ -9,6 +10,10 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [nameFilter, setNameFilter] = useState("");
+  const [notification, setNotification] = useState({
+    message: null,
+    color: null,
+  });
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => setPersons(initialPersons));
@@ -46,6 +51,15 @@ const App = () => {
                 person.id !== personToUpdate.id ? person : returnedPerson
               )
             );
+            setNewName("");
+            setNewNumber("");
+            setNotification({
+              message: `${returnedPerson.name}'s number has been updated`,
+              color: "green",
+            });
+            setTimeout(() => {
+              setNotification({ message: null, color: null });
+            }, 4000);
           });
       }
     } else {
@@ -58,6 +72,13 @@ const App = () => {
         setPersons(persons.concat(returnedPerson));
         setNewName("");
         setNewNumber("");
+        setNotification({
+          message: `${returnedPerson.name} added`,
+          color: "green",
+        });
+        setTimeout(() => {
+          setNotification({ message: null, color: null });
+        }, 4000);
       });
     }
   };
@@ -71,9 +92,27 @@ const App = () => {
     if (
       window.confirm(`Are you sure you want to delete ${personToDelete.name}`)
     ) {
-      personService.remove(id).then((removedPerson) => {
-        setPersons(persons.filter((person) => person.id !== id));
-      });
+      personService
+        .remove(id)
+        .then((removedPerson) => {
+          setPersons(persons.filter((person) => person.id !== id));
+          setNotification({
+            message: `${personToDelete.name} has been deleted`,
+            color: "red",
+          });
+          setTimeout(() => {
+            setNotification({ message: null, color: null });
+          }, 4000);
+        })
+        .catch((error) => {
+          setNotification({
+            message: `${personToDelete.name} has already been deleted`,
+            color: "red",
+          });
+          setTimeout(() => {
+            setNotification({ message: null, color: null });
+          }, 4000);
+        });
     }
   };
 
@@ -83,6 +122,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification notification={notification} />
       <h2>Phonebook</h2>
       <Filter nameFilter={nameFilter} handleFilter={handleFilter} />
       <div>
