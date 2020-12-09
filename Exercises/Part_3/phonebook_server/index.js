@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 
+app.use(express.json());
+
 let persons = [
   {
     name: "Arto Hellas",
@@ -55,6 +57,25 @@ app.delete("/api/persons/:id", (req, res) => {
   res.status(204).end();
 });
 
+app.post("/api/persons", (req, res) => {
+  const body = req.body;
+
+  if (!body.name || !body.number) {
+    return res.status(400).json({ error: "content missing" });
+  } else if (persons.some((person) => person.name === body.name)) {
+    return res.status(400).json({ error: "name must be unique" });
+  }
+
+  const newPerson = {
+    name: body.name,
+    number: body.number,
+    id: Math.round(Math.random() * 10000),
+  };
+
+  persons.concat(newPerson);
+
+  res.json(newPerson);
+});
 const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Server is running on PORT ${PORT}`);
