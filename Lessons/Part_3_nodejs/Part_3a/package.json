@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build:ui": "rm -rf build && cd ../../Part_2_rendering_collections && npm run build -- prod && cp -r build ../Part_3_nodejs/Part_3a",
+    "deploy": "git push heroku main",
+    "deploy:full": "npm run build:ui && git add . && git commit -m 'uibuild' && npm run deploy",
+    "logs:prod": "heroku logs --tail"
   },
   "author": "",
   "license": "ISC",
