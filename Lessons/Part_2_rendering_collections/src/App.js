@@ -32,7 +32,7 @@ const App = () => {
       setNewNote("");
       setNotification({
         message: `${returnedNote.content} added`,
-        color: "teal",
+        color: "purple",
       });
       setTimeout(() => {
         setNotification({ message: null, color: null });
