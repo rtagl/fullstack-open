@@ -1,8 +1,10 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const morgan = require("morgan");
 
 app.use(express.json());
+app.use(cors());
 
 morgan.token("request-body", function (req, res) {
   return JSON.stringify(req.body);
@@ -13,16 +15,6 @@ app.use(
     ":method :url :status :res[content-length] - :response-time :request-body"
   )
 );
-
-// const requestLogger = (request, response, next) => {
-//   console.log("Method: ", request.method);
-//   console.log("Path: ", request.path);
-//   console.log("Body: ", request.body);
-//   console.log("-----");
-//   next();
-// };
-
-// app.use(requestLogger);
 
 let persons = [
   {
@@ -98,7 +90,7 @@ app.post("/api/persons", (req, res) => {
   res.json(newPerson);
 });
 
-const unknownEndpoint = () => {
+const unknownEndpoint = (req, res) => {
   res.status(404).send({ error: "unknown endpoint" });
 };
 
