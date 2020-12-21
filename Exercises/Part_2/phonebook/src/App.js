@@ -74,7 +74,7 @@ const App = () => {
         setNewNumber("");
         setNotification({
           message: `${returnedPerson.name} added`,
-          color: "green",
+          color: "cyan",
         });
         setTimeout(() => {
           setNotification({ message: null, color: null });
