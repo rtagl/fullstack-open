@@ -41,11 +41,14 @@ app.get("/info", (req, res) => {
     `);
 });
 
-app.delete("/api/persons/:id", (req, res) => {
-  const id = Number(req.params.id);
-  persons = persons.filter((person) => person.id !== id);
-
-  res.status(204).end();
+app.delete("/api/persons/:id", (req, res, next) => {
+  Person.findByIdAndRemove(req.params.id)
+    .then((result) => {
+      res.status(204).end();
+    })
+    .catch((error) => {
+      next(error);
+    });
 });
 
 app.post("/api/persons", (req, res) => {
@@ -65,11 +68,22 @@ app.post("/api/persons", (req, res) => {
   });
 });
 
+// after route middlewares
 const unknownEndpoint = (req, res) => {
   res.status(404).send({ error: "unknown endpoint" });
 };
 
 app.use(unknownEndpoint);
+
+const errorHandler = (error, req, res, next) => {
+  console.log(error.message);
+  if (error.name === "CaseError") {
+    return res.status(400).send({ error: "malformatted id" });
+  }
+  next(error);
+};
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
