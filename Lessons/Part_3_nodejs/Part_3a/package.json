@@ -9,7 +9,9 @@
     "build:ui": "rm -rf build && cd ../../Part_2_rendering_collections && npm run build -- prod && cp -r build ../Part_3_nodejs/Part_3a",
     "deploy": "cd ../../../ && git subtree push --prefix Lessons/Part_3_nodejs/Part_3a heroku-notes master",
     "deploy:full": "npm run build:ui && git add . && git commit -m 'uibuild' && npm run deploy",
-    "logs:prod": "heroku logs --tail"
+    "logs:prod": "heroku logs --tail",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix --ext .js,.jsx ."
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +22,8 @@
     "mongoose": "^5.11.13"
   },
   "devDependencies": {
+    "eslint": "^7.19.0",
+    "eslint-plugin-react": "^7.22.0",
     "nodemon": "^2.0.6"
   }
 }
