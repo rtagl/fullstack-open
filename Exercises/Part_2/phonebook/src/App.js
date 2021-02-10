@@ -68,18 +68,29 @@ const App = () => {
         name: newName,
         number: newNumber,
       };
-      personService.create(person).then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson));
-        setNewName("");
-        setNewNumber("");
-        setNotification({
-          message: `${returnedPerson.name} added`,
-          color: "cyan",
+      personService
+        .create(person)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson));
+          setNewName("");
+          setNewNumber("");
+          setNotification({
+            message: `${returnedPerson.name} added`,
+            color: "cyan",
+          });
+          setTimeout(() => {
+            setNotification({ message: null, color: null });
+          }, 4000);
+        })
+        .catch((error) => {
+          setTimeout(() => {
+            setNotification({
+              message: error.response.data.error,
+              color: "red",
+            });
+          });
+          console.log(error.response.data);
         });
-        setTimeout(() => {
-          setNotification({ message: null, color: null });
-        }, 4000);
-      });
     }
   };
 
