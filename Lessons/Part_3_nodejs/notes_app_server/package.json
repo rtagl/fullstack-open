@@ -7,7 +7,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "build:ui": "rm -rf build && cd ../../Part_2_rendering_collections/notes_app_frontend && npm run build -- prod && cp -r build ../../Part_3_nodejs/notes_app_server",
-    "deploy": "cd ../../../ && git subtree push --prefix Lessons/Part_3_nodejs/notes_app_server heroku-notes master -f",
+    "deploy": "cd ../../../../ && git subtree push --prefix Lessons/Part_3_nodejs/notes_app_server heroku-notes master",
     "deploy:full": "npm run build:ui && git add . && git commit -m 'uibuild' && npm run deploy",
     "logs:prod": "heroku logs --tail",
     "lint": "eslint .",
